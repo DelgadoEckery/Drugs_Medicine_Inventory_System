@@ -1,1 +1,23 @@
-import{Link,useNavigate}from'react-router-dom';import{useAuth}from'../AuthContext';export default function Layout({children}){const{logout}=useAuth(),navigate=useNavigate();const leave=async()=>{await logout();navigate('/login')};return <main className="shell"><header><Link to="/medicines" className="brand">Pharmacy Inventory</Link><button className="ghost" onClick={leave}>Logout</button></header>{children}</main>}
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
+export default function Layout({ children }) {
+    const { logout } = useAuth(),
+        navigate = useNavigate();
+    const leave = async () => {
+        await logout();
+        navigate("/login");
+    };
+    return (
+        <main className="shell">
+            <header>
+                <Link to="/medicines" className="brand">
+                    Pharmacy Inventory
+                </Link>
+                <button className="ghost" onClick={leave}>
+                    Logout
+                </button>
+            </header>
+            {children}
+        </main>
+    );
+}

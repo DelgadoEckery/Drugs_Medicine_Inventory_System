@@ -1,1 +1,65 @@
-import{useState}from'react';import{useNavigate}from'react-router-dom';import{useAuth}from'../AuthContext';import{messageFor}from'../services/api';export default function Login(){const[form,setForm]=useState({username:'',password:''}),[error,setError]=useState(''),[loading,setLoading]=useState(false);const{login}=useAuth(),navigate=useNavigate();const submit=async e=>{e.preventDefault();if(!form.username.trim()||!form.password){setError('Username and password are required.');return}setLoading(true);setError('');try{await login(form);navigate('/medicines')}catch(err){setError(messageFor(err))}finally{setLoading(false)}};return <main className="auth"><form className="card" onSubmit={submit}><p className="eyebrow">PHARMACY PORTAL</p><h1>Medicine Inventory</h1><p className="muted">Sign in to manage your medicine stock.</p>{error&&<p className="notice error" role="alert">{error}</p>}<label>Username<input value={form.username} onChange={e=>setForm({...form,username:e.target.value})}/></label><label>Password<input type="password" value={form.password} onChange={e=>setForm({...form,password:e.target.value})}/></label><button disabled={loading}>{loading?'Signing in…':'Login'}</button><p className="hint">Demo: pharmacist / med123</p></form></main>}
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
+import { messageFor } from "../services/api";
+export default function Login() {
+    const [form, setForm] = useState({ username: "", password: "" }),
+        [error, setError] = useState(""),
+        [loading, setLoading] = useState(false);
+    const { login } = useAuth(),
+        navigate = useNavigate();
+    const submit = async (e) => {
+        e.preventDefault();
+        if (!form.username.trim() || !form.password) {
+            setError("Username and password are required.");
+            return;
+        }
+        setLoading(true);
+        setError("");
+        try {
+            await login(form);
+            navigate("/medicines");
+        } catch (err) {
+            setError(messageFor(err));
+        } finally {
+            setLoading(false);
+        }
+    };
+    return (
+        <main className="auth">
+            <form className="card" onSubmit={submit}>
+                <p className="eyebrow">PHARMACY PORTAL</p>
+                <h1>Medicine Inventory</h1>
+                <p className="muted">Sign in to manage your medicine stock.</p>
+                {error && (
+                    <p className="notice error" role="alert">
+                        {error}
+                    </p>
+                )}
+                <label>
+                    Username
+                    <input
+                        value={form.username}
+                        onChange={(e) =>
+                            setForm({ ...form, username: e.target.value })
+                        }
+                    />
+                </label>
+                <label>
+                    Password
+                    <input
+                        type="password"
+                        value={form.password}
+                        onChange={(e) =>
+                            setForm({ ...form, password: e.target.value })
+                        }
+                    />
+                </label>
+                <button disabled={loading}>
+                    {loading ? "Signing in…" : "Login"}
+                </button>
+                <p className="hint">Demo: pharmacist / med123</p>
+            </form>
+        </main>
+    );
+}
