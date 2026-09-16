@@ -1,0 +1,4 @@
+<?php
+namespace App\Http\Controllers;
+use App\Models\User; use Illuminate\Http\Request; use Illuminate\Support\Facades\Hash; use Illuminate\Support\Str;
+class AuthController extends Controller { public function login(Request $request) { $credentials=$request->validate(['username'=>['required','string'],'password'=>['required','string']]); $user=User::where('username',trim($credentials['username']))->first(); if (! $user || ! Hash::check($credentials['password'],$user->password)) return response()->json(['message'=>'Invalid username or password.'],401); $user->forceFill(['api_token'=>Str::random(60)])->save(); return response()->json(['message'=>'Login successful.','token'=>$user->api_token,'user'=>['id'=>$user->id,'username'=>$user->username]]); } public function logout(Request $request) { $request->user()->forceFill(['api_token'=>null])->save(); return response()->json(['message'=>'Logged out successfully.']); } }

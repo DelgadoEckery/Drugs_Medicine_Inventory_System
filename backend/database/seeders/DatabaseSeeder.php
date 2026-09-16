@@ -1,0 +1,7 @@
+<?php
+namespace Database\Seeders;
+use App\Models\Medicine;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+class DatabaseSeeder extends Seeder { public function run(): void { User::updateOrCreate(['username'=>'pharmacist'],['name'=>'Pharmacist','email'=>'pharmacist@example.test','password'=>Hash::make('med123')]); foreach ([['brand_name'=>'Biogesic','category'=>'Analgesic','dosage_quantity'=>500,'unit'=>'mg','manufacturer'=>'Unilab','description'=>'Generic paracetamol tablet sample.'],['brand_name'=>'Amoxicillin','category'=>'Antibiotic','dosage_quantity'=>500,'unit'=>'mg','manufacturer'=>'PharmaCare','description'=>'Generic capsule sample.'],['brand_name'=>'Ibuprofen','category'=>'Anti-inflammatory','dosage_quantity'=>200,'unit'=>'mg','manufacturer'=>'Medline','description'=>'Generic tablet sample.'],['brand_name'=>'Cetirizine','category'=>'Antihistamine','dosage_quantity'=>10,'unit'=>'mg','manufacturer'=>'HealthFirst','description'=>'Generic tablet sample.'],['brand_name'=>'Omeprazole','category'=>'Gastrointestinal','dosage_quantity'=>20,'unit'=>'mg','manufacturer'=>'Wellness Labs','description'=>'Generic capsule sample.']] as $medicine) { Medicine::updateOrCreate(['brand_name'=>$medicine['brand_name']],$medicine); } } }
